@@ -24,23 +24,43 @@ const movieDB = {
     ]
 };
 
-const adv        = document.querySelectorAll(".promo__adv img"),
-      back       = document.querySelector(".promo__bg"),
-      genre      = back.querySelector(".promo__genre"),
-      MoviesList = document.querySelectorAll(".promo__interactive-item");
+const adv            = document.querySelectorAll(".promo__adv img"),
+      back           = document.querySelector(".promo__bg"),
+      genre          = back.querySelector(".promo__genre"),
+      addMovieButton = document.querySelector(".promo__interactive .add button"),
+      inputWork      = document.querySelector('.promo__interactive .add input[type="text"]'),
+      MoviesList     = document.querySelector(".promo__interactive-list");
 
 adv.forEach(item => {
     item.remove();
 });
 
 back.style.backgroundImage = "url(img/bg.jpg)";
-
 genre.textContent = "ДРАМА";
+MoviesList.innerHTML = "";
 
-MoviesList.forEach((item, i) => {
-    item.firstChild.data = `${i+1}. ${movieDB.movies.sort()[i]}`;
-    i++; 
+for (let i = 0; i < movieDB.movies.length; i++) {
+    MoviesList.innerHTML += `
+    <li class="promo__interactive-item"> ${i+1}. ${movieDB.movies.sort()[i]}
+        <div class="delete"></div>
+    </li>`;
+    
+}
+
+addMovieButton.addEventListener("click", () => {
+    if (inputWork.value.length > 20) {
+        let newMovie = `${inputWork.value.slice(0, 20)}...`;
+        movieDB.movies[movieDB.movies.length] = newMovie;
+    } else {
+        movieDB.movies[movieDB.movies.length] = inputWork.value;
+    }
+    inputWork.value = "";
+    console.log(movieDB.movies);
 });
+
+
+
+
 
 /* Задания на урок:
 
