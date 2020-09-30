@@ -51,13 +51,9 @@ for (let i = 0; i < movieDB.movies.length; i++) {
 }
 
 addMovieButton.addEventListener("click", () => {
-    
-    if (inputWork.value.length > 20) {
-        let newMovie = `${inputWork.value.slice(0, 20)}...`;
-        movieDB.movies[movieDB.movies.length] = newMovie;
-    } else {
-        movieDB.movies[movieDB.movies.length] = inputWork.value;
-    }
+
+    const newMovie = inputLengthControl(inputWork.value);
+    movieDB.movies[movieDB.movies.length] = newMovie;
     if (checkBox.checked) {
         console.log("Adding new favorite movie");
     }
@@ -65,7 +61,12 @@ addMovieButton.addEventListener("click", () => {
     console.log(movieDB.movies);
 });
 
-
+function inputLengthControl(string) {
+    if (string.length > 20) {
+        string = `${string.slice(0,20)}...`;
+    }
+    return(string);
+}
 
 /* Задания на урок:
 
