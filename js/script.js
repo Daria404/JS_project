@@ -20,16 +20,19 @@ const movieDB = {
         "Лига справедливости",
         "Ла-ла лэнд",
         "Одержимость",
-        "Скотт Пилигрим против..."
+        "Скотт Пилигрим против...",
+        "Пролетая над гнездом..."
     ]
 };
 
 const adv            = document.querySelectorAll(".promo__adv img"),
       back           = document.querySelector(".promo__bg"),
       genre          = back.querySelector(".promo__genre"),
-      addMovieButton = document.querySelector(".promo__interactive .add button"),
-      inputWork      = document.querySelector('.promo__interactive .add input[type="text"]'),
-      MoviesList     = document.querySelector(".promo__interactive-list");
+      interactive    = document.querySelector(".promo__interactive"),
+      addMovieButton = interactive.querySelector(".promo__interactive .add button"),
+      inputWork      = interactive.querySelector('.promo__interactive .add input[type="text"]'),
+      checkBox       = interactive.querySelector("input[type='checkbox']"),
+      MoviesList     = interactive.querySelector(".promo__interactive-list");
 
 adv.forEach(item => {
     item.remove();
@@ -48,17 +51,19 @@ for (let i = 0; i < movieDB.movies.length; i++) {
 }
 
 addMovieButton.addEventListener("click", () => {
+    
     if (inputWork.value.length > 20) {
         let newMovie = `${inputWork.value.slice(0, 20)}...`;
         movieDB.movies[movieDB.movies.length] = newMovie;
     } else {
         movieDB.movies[movieDB.movies.length] = inputWork.value;
     }
+    if (checkBox.checked) {
+        console.log("Adding new favorite movie");
+    }
     inputWork.value = "";
     console.log(movieDB.movies);
 });
-
-
 
 
 
