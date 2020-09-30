@@ -14,6 +14,10 @@
 
 'use strict';
 
+document.addEventListener("DOMContentLoaded", () => {
+
+
+
 const movieDB = {
     movies: [
         "Логан",
@@ -34,39 +38,67 @@ const adv            = document.querySelectorAll(".promo__adv img"),
       checkBox       = interactive.querySelector("input[type='checkbox']"),
       MoviesList     = interactive.querySelector(".promo__interactive-list");
 
-adv.forEach(item => {
-    item.remove();
-});
 
-back.style.backgroundImage = "url(img/bg.jpg)";
-genre.textContent = "ДРАМА";
-MoviesList.innerHTML = "";
+const deleteADV = (arg) => {
+    arg.forEach(item => {
+        item.remove();
+    });
+};
 
-for (let i = 0; i < movieDB.movies.length; i++) {
-    MoviesList.innerHTML += `
-    <li class="promo__interactive-item"> ${i+1}. ${movieDB.movies.sort()[i]}
-        <div class="delete"></div>
-    </li>`;
-    
+
+const makeChanges = () => {
+    back.style.backgroundImage = "url(img/bg.jpg)";
+    genre.textContent = "ДРАМА";
+};
+
+
+function createaListfromDB(DB) {
+    MoviesList.innerHTML = "";
+    for (let i = 0; i < DB.length; i++) {
+            MoviesList.innerHTML += `
+            <li class="promo__interactive-item"> ${i+1}. ${DB.sort()[i]}
+                <div class="delete"></div>
+            </li>`;
+        }
+    document.querySelectorAll(".delete").forEach((btn, i) => {
+        btn.addEventListener("click", () => {
+            btn.parentElement.remove();
+            movieDB.movies.splice(i, 1);
+            createaListfromDB(movieDB.movies);
+        });
+    });
 }
 
-addMovieButton.addEventListener("click", () => {
+addMovieButton.addEventListener("click", (e) => {
 
-    const newMovie = inputLengthControl(inputWork.value);
-    movieDB.movies[movieDB.movies.length] = newMovie;
-    if (checkBox.checked) {
-        console.log("Adding new favorite movie");
-    }
-    inputWork.value = "";
-    console.log(movieDB.movies);
+    e.preventDefault();
+    if (inputControl(inputWork.value)) {
+        movieDB.movies[movieDB.movies.length] = inputControl(inputWork.value);
+        if (checkBox.checked) {
+            console.log("Adding new favorite movie");
+        }
+        inputWork.value = "";
+        createaListfromDB(movieDB.movies);
+        console.log(movieDB.movies);
+        }
 });
 
-function inputLengthControl(string) {
-    if (string.length > 20) {
+function inputControl(string) {
+    if (string != "") {
+        string = string[0].toUpperCase() + string.slice(1);
+        if (string.length > 20) {
         string = `${string.slice(0,20)}...`;
+    } } else {
+        string = !!string;
     }
     return(string);
 }
+
+deleteADV(adv);
+makeChanges();
+createaListfromDB(movieDB.movies);
+
+});
 
 /* Задания на урок:
 
